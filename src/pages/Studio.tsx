@@ -9,7 +9,7 @@ import ToolboxSidebar from '../components/studio/ToolboxSidebar';
 import NavigationControls from '../components/studio/NavigationControls';
 
 // API base URL - can be configured for different environments
-const API_BASE_URL = 'http://127.0.0.1:8001';
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL ?? 'http://127.0.0.1:8001').replace(/\/$/, '');
 
 const Studio = () => {
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
