@@ -28,9 +28,23 @@ const mechanics = [
 ];
 
 const MechanicList: React.FC<MechanicListProps> = ({ searchQuery, filters }) => {
+  const filteredMechanics = mechanics.filter((mechanic) => {
+    const query = searchQuery.trim().toLowerCase();
+    const matchesSearch =
+      !query ||
+      mechanic.name.toLowerCase().includes(query) ||
+      mechanic.specializations.some((item) => item.toLowerCase().includes(query));
+    const matchesDistance = mechanic.distance <= filters.distance;
+    const matchesRating = mechanic.rating >= filters.rating;
+    const matchesSpecialization =
+      filters.specialization === 'all' ||
+      mechanic.specializations.some((item) => item.toLowerCase().includes(filters.specialization.toLowerCase()));
+    return matchesSearch && matchesDistance && matchesRating && matchesSpecialization;
+  });
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      {mechanics.map((mechanic) => (
+      {filteredMechanics.map((mechanic) => (
         <motion.div
           key={mechanic.id}
           initial={{ opacity: 0, y: 20 }}
