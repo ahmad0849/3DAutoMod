@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import CustomizationSummary from '../components/mechanics/CustomizationSummary';
-import BidList from '../components/mechanics/BidList';
+import BidList, { type MechanicBid } from '../components/mechanics/BidList';
 import BidFilters from '../components/mechanics/BidFilters';
 import SelectionModal from '../components/mechanics/SelectionModal';
 
 const MechanicBids = () => {
-  const [selectedMechanic, setSelectedMechanic] = useState(null);
+  const [selectedMechanic, setSelectedMechanic] = useState<MechanicBid | null>(null);
   const [filters, setFilters] = useState({
     priceRange: [0, 5000],
     location: 'all',
