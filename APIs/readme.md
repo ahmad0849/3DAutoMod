@@ -12,4 +12,8 @@ pip install --no-build-isolation detectron2 @ git+https://github.com/facebookres
 ```bash
 python main.py
 ```
-5. Access api docs at link: http://127.0.0.1:8000/docs
+5. Access api docs at link: http://127.0.0.1:8001/docs
+
+## Frontend CORS
+
+The API allows the local Vite origins `http://localhost:5173` and `http://127.0.0.1:5173` by default. Set `FRONTEND_ORIGINS` to a comma-separated list of trusted origins when deploying the frontend elsewhere.

@@ -45,7 +45,7 @@ const LoginForm = () => {
 
         navigate('/');
       } else {
-        const { data: authData, error } = await supabase.auth.signUp({
+        const { error } = await supabase.auth.signUp({
           email: data.email,
           password: data.password,
           options: {
@@ -61,10 +61,10 @@ const LoginForm = () => {
         // Switch to login view after successful signup
         setIsLogin(true);
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       setError('root', {
         type: 'manual',
-        message: error.message || 'An error occurred',
+        message: error instanceof Error ? error.message : 'An error occurred',
       });
     } finally {
       setIsLoading(false);
