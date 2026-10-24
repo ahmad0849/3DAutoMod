@@ -158,7 +158,7 @@ const Studio = () => {
           'Accept': 'video/mp4, video/*, application/json',
         },
         responseType: 'blob',
-        timeout: 60000, // 60 second timeout as this might take longer
+        timeout: 300000, // 3D generation may take several minutes
       });
       
       console.log('API Response received:', {
