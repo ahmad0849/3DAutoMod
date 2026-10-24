@@ -29,10 +29,53 @@ const mockMechanics = [
   }
 ];
 
-const BidList = ({ filters, onSelectMechanic }) => {
+export type MechanicBid = (typeof mockMechanics)[number];
+
+type BidFiltersState = {
+  priceRange: [number, number];
+  location: string;
+  specialization: string;
+  minRating: number;
+  sortBy: string;
+};
+
+const BidList = ({
+  filters,
+  onSelectMechanic,
+}: {
+  filters: BidFiltersState;
+  onSelectMechanic: (mechanic: MechanicBid) => void;
+}) => {
+  const filteredMechanics = mockMechanics.filter((mechanic) => {
+    const distance = Number.parseFloat(mechanic.distance);
+    const withinPrice = mechanic.quote >= filters.priceRange[0] && mechanic.quote <= filters.priceRange[1];
+    const withinDistance =
+      filters.location === 'all' ||
+      (filters.location === '5km' && distance <= 5) ||
+      (filters.location === '10km' && distance <= 10) ||
+      (filters.location === '20km' && distance <= 20);
+    const matchesSpecialization =
+      filters.specialization === 'all' ||
+      mechanic.specializations.some((item) => {
+        const value = item.toLowerCase();
+        if (filters.specialization === 'paint') return value.includes('paint');
+        if (filters.specialization === 'performance') return value.includes('performance');
+        if (filters.specialization === 'body') return value.includes('body');
+        return value.includes(filters.specialization.toLowerCase());
+      });
+    return withinPrice && withinDistance && mechanic.rating >= filters.minRating && matchesSpecialization;
+  });
+
+  const sortedMechanics = [...filteredMechanics].sort((a, b) => {
+    if (filters.sortBy === 'price-low') return a.quote - b.quote;
+    if (filters.sortBy === 'price-high') return b.quote - a.quote;
+    if (filters.sortBy === 'rating') return b.rating - a.rating;
+    return 0;
+  });
+
   return (
     <div className="grid grid-cols-1 gap-6">
-      {mockMechanics.map((mechanic, index) => (
+      {sortedMechanics.map((mechanic, index) => (
         <motion.div
           key={mechanic.id}
           initial={{ opacity: 0, y: 20 }}
