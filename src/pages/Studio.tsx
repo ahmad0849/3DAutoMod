@@ -220,12 +220,12 @@ const Studio = () => {
       
       toast.success('3D model generated successfully!');
       
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error generating 3D model:', error);
       
       let errorMessage = 'Failed to generate 3D model. Please try again.';
       
-      if (error.response) {
+      if (axios.isAxiosError(error) && error.response) {
         console.error('Error response:', {
           data: error.response.data,
           status: error.response.status,
@@ -233,12 +233,12 @@ const Studio = () => {
         });
         
         errorMessage = `API error (${error.response.status}): Please check if the API server is running`;
-      } else if (error.request) {
+      } else if (axios.isAxiosError(error) && error.request) {
         console.error('Error request:', error.request);
         errorMessage = 'No response from server. Please check if the API server is running at http://127.0.0.1:8001';
       } else {
-        console.error('Error message:', error.message);
-        errorMessage = `Error: ${error.message}`;
+        console.error('Error message:', error instanceof Error ? error.message : String(error));
+        errorMessage = `Error: ${error instanceof Error ? error.message : String(error)}`;
       }
       
       setError(errorMessage);
@@ -374,13 +374,13 @@ const Studio = () => {
       // Set the source to load the image
       img.src = objectUrl;
       
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error applying rims:', error);
       
       // Get more detailed error information
       let errorMessage = 'Failed to apply rims. Please try again.';
       
-      if (error.response) {
+      if (axios.isAxiosError(error) && error.response) {
         // The request was made and the server responded with a status code
         // that falls out of the range of 2xx
         console.error('Error response:', {
@@ -390,14 +390,14 @@ const Studio = () => {
         });
         
         errorMessage = `API error (${error.response.status}): Please check if the API server is running`;
-      } else if (error.request) {
+      } else if (axios.isAxiosError(error) && error.request) {
         // The request was made but no response was received
         console.error('Error request:', error.request);
         errorMessage = 'No response from server. Please check if the API server is running at http://127.0.0.1:8001';
       } else {
         // Something happened in setting up the request that triggered an Error
-        console.error('Error message:', error.message);
-        errorMessage = `Error: ${error.message}`;
+        console.error('Error message:', error instanceof Error ? error.message : String(error));
+        errorMessage = `Error: ${error instanceof Error ? error.message : String(error)}`;
       }
       
       setError(errorMessage);
@@ -526,13 +526,13 @@ const Studio = () => {
       // Set the source to load the image
       img.src = objectUrl;
       
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error applying color:', error);
       
       // Get more detailed error information
       let errorMessage = 'Failed to apply color. Please try again.';
       
-      if (error.response) {
+      if (axios.isAxiosError(error) && error.response) {
         console.error('Error response:', {
           data: error.response.data,
           status: error.response.status,
@@ -540,12 +540,12 @@ const Studio = () => {
         });
         
         errorMessage = `API error (${error.response.status}): Please check if the API server is running`;
-      } else if (error.request) {
+      } else if (axios.isAxiosError(error) && error.request) {
         console.error('Error request:', error.request);
         errorMessage = 'No response from server. Please check if the API server is running at http://127.0.0.1:8001';
       } else {
-        console.error('Error message:', error.message);
-        errorMessage = `Error: ${error.message}`;
+        console.error('Error message:', error instanceof Error ? error.message : String(error));
+        errorMessage = `Error: ${error instanceof Error ? error.message : String(error)}`;
       }
       
       setError(errorMessage);
