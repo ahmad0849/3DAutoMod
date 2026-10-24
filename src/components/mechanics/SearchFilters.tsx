@@ -12,7 +12,7 @@ interface FilterProps {
     priceRange: [number, number];
     availability: string;
   };
-  onFiltersChange: (filters: any) => void;
+  onFiltersChange: (filters: FilterProps['filters']) => void;
 }
 
 const SearchFilters: React.FC<FilterProps> = ({
